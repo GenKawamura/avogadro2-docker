@@ -1,0 +1,27 @@
+--- thirdparty/libgwavi/CMakeLists.orig.txt	2018-08-22 16:26:14.000000000 +0200
++++ thirdparty/libgwavi/CMakeLists.txt	2018-08-24 18:01:21.867080723 +0200
+@@ -1,8 +1,8 @@
+-add_library(libgwavi STATIC gwavi.c fileio.c avi-utils.c)
+-set_target_properties(libgwavi PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
++add_library(gwavi STATIC gwavi.c fileio.c avi-utils.c)
++set_target_properties(gwavi PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
+ 
+-install(TARGETS libgwavi
++install(TARGETS gwavi
+   EXPORT "AvogadroLibsTargets"
+-  RUNTIME DESTINATION "${INSTALL_RUNTIME_DIR}"
+-  LIBRARY DESTINATION "${INSTALL_LIBRARY_DIR}"
+-  ARCHIVE DESTINATION "${INSTALL_ARCHIVE_DIR}")
+\ No newline at end of file
++  RUNTIME DESTINATION "${INSTALL_RUNTIME_DIR}/avogadro2"
++  LIBRARY DESTINATION "${INSTALL_LIBRARY_DIR}/avogadro2"
++  ARCHIVE DESTINATION "${INSTALL_ARCHIVE_DIR}/avogadro2")
+--- avogadro/qtplugins/playertool/CMakeLists.orig.txt	2018-08-22 16:26:14.000000000 +0200
++++ avogadro/qtplugins/playertool/CMakeLists.txt	2018-08-24 18:08:51.278284320 +0200
+@@ -11,4 +11,4 @@
+   playertool.qrc
+ )
+ 
+-target_link_libraries(PlayerTool LINK_PRIVATE libgwavi)
+\ No newline at end of file
++target_link_libraries(PlayerTool LINK_PRIVATE gwavi)

@@ -1,0 +1,53 @@
+FROM centos:7
+#FROM docker.io/scientificlinux/sl:7
+
+RUN yum -y install epel-release
+ 
+ADD avogadro2-packages/ /usr/local/src
+ADD other-binary-packages /tmp/other-binary-packages
+
+RUN yum -y install /tmp/other-binary-packages/*.rpm
+RUN cd /usr/local/src && rpm  -ivh *.rpm
+
+## Installing build tools and required packages by avogadro2 and the others
+RUN yum --nogpgcheck -y install rpm-build \
+make \
+cmake \
+cmake3 \
+gcc-c++ \
+gtest-devel \
+boost-devel \
+python3-devel \
+epel-rpm-macros \
+chrpath \
+devtoolset-8-gcc \
+devtoolset-8-gcc-c++ \
+eigen3-devel \
+glew-devel \
+openbabel-devel \
+mesa-libGLU-devel \
+hdf5-devel \
+mmtf-cpp-devel \
+jsoncpp-devel \
+spglib-devel \
+molequeue-devel \
+qt5-qtbase-devel \
+qt5-qttools-devel \
+libarchive-devel \
+doxygen \
+graphviz
+
+
+
+#RUN yum -y install mlocate && updatedb && locate avogadro2-libs.spec
+RUN ls /root/rpmbuild/SPECS
+
+
+## Bulding packages from source rpms
+RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/msgpack.spec
+RUN yum -y install /root/rpmbuild/RPMS/x86_64/msgpack-*.rpm
+
+RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/mmtf-cpp.spec
+RUN yum -y install /root/rpmbuild/RPMS/x86_64/mmtf-cpp-devel-*.rpm
+
+RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/avogadro2-libs.spec
