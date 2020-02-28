@@ -67,6 +67,6 @@ RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/mm
 RUN yum -y install /root/rpmbuild/RPMS/x86_64/mmtf-cpp-devel-*.rpm
 
 
-ADD modified/avogadro2-libs.spec /root/rpmbuild/SPECS/
+#ADD modified/avogadro2-libs.spec /root/rpmbuild/SPECS/
 #ADD modified/avogadro2-libs-libarchive.patch /root/rpmbuild/SOURCES/
 RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/avogadro2-libs.spec
