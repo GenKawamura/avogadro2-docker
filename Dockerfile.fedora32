@@ -38,4 +38,7 @@ RUN yum -y install boost-python3-devel
 #RUN yum -y install mlocate && updatedb && locate avogadro2-libs.spec
 RUN ls /root/rpmbuild/SPECS
 
-RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/avogadro2-libs.spec
+#RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/avogadro2-libs.spec
+
+RUN yum info libGL-devel*
+

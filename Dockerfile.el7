@@ -48,13 +48,14 @@ libzstd-devel \
 lz4-devel \
 openssl-devel \
 sharutils \
-xz-devel
-
+xz-devel \
+mesa-libGL-devel \
+desktop-file-utils
 
 
 #RUN yum -y install mlocate && updatedb && locate avogadro2-libs.spec
 RUN ls /root/rpmbuild/SPECS
-
+ADD modified/*.spec /root/rpmbuild/SPECS/
 
 ## Bulding packages from source rpms
 RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/libarchive.spec
@@ -66,7 +67,8 @@ RUN yum -y install /root/rpmbuild/RPMS/x86_64/msgpack-*.rpm
 RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/mmtf-cpp.spec
 RUN yum -y install /root/rpmbuild/RPMS/x86_64/mmtf-cpp-devel-*.rpm
 
-
-#ADD modified/avogadro2-libs.spec /root/rpmbuild/SPECS/
-#ADD modified/avogadro2-libs-libarchive.patch /root/rpmbuild/SOURCES/
 RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/avogadro2-libs.spec
+RUN yum -y install /root/rpmbuild/RPMS/x86_64/avogadro2-libs-*.rpm
+
+RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/avogadro2.spec
+RUN yum -y install /root/rpmbuild/RPMS/x86_64/avogadro2-1.93*.rpm
