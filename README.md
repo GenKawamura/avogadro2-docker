@@ -11,5 +11,5 @@
 
 
 ## Status
- Both builds still fail.
+ CentOS7 build is successful
 
