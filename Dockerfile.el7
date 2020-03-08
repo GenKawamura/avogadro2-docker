@@ -25,7 +25,6 @@ devtoolset-8-gcc-c++ \
 eigen3-devel \
 glew-devel \
 openbabel-devel \
-mesa-libGLU-devel \
 hdf5-devel \
 mmtf-cpp-devel \
 jsoncpp-devel \
@@ -34,10 +33,8 @@ molequeue-devel \
 qt5-qtbase-devel \
 qt5-qttools-devel \
 doxygen \
-graphviz
-
-
-RUN yum --nogpgcheck -y install \
+graphviz \
+xkeyboard-config \
 bison \
 bzip2-devel \
 e2fsprogs-devel \
@@ -49,8 +46,12 @@ lz4-devel \
 openssl-devel \
 sharutils \
 xz-devel \
-mesa-libGL-devel \
 desktop-file-utils
+
+
+## Installing all mesa related packages
+RUN yum -y install mesa-*
+
 
 
 #RUN yum -y install mlocate && updatedb && locate avogadro2-libs.spec
@@ -72,3 +73,18 @@ RUN yum -y install /root/rpmbuild/RPMS/x86_64/avogadro2-libs-*.rpm
 
 RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/avogadro2.spec
 RUN yum -y install /root/rpmbuild/RPMS/x86_64/avogadro2-1.93*.rpm
+
+
+
+## Making Plugin
+ADD avogadro2-plugin/ /tmp/avogadro2-plugin
+RUN rpm -ivh /tmp/avogadro2-plugin/*.rpm
+RUN yum -y install python36-numpy
+RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/avogadro2-nanocar.spec
+RUN yum -y install /root/rpmbuild/RPMS/x86_64/avogadro2-nanocar*.rpm
+
+
+
+# User
+RUN adduser user1000
+USER user1000
