@@ -12,7 +12,7 @@
 
 ## Running the docker container
 
-	$ docker run --rm -it -e DISPLAY=:0 -v /tmp/.X11-unix:/tmp/.X11-unix avogadro2.el7 
+	$ docker run --rm -it -e DISPLAY=:0 -v /tmp/.X11-unix:/tmp/.X11-unix avogadro2:el7 
 
 
 ## Status

@@ -4,10 +4,11 @@ FROM centos:7
 RUN yum -y install epel-release
  
 ADD avogadro2-packages/ /usr/local/src
-ADD other-binary-packages /tmp/other-binary-packages
+RUN rpm -ivh /usr/local/src/*.rpm
 
+ADD other-binary-packages /tmp/other-binary-packages
 RUN yum -y install /tmp/other-binary-packages/*.rpm
-RUN cd /usr/local/src && rpm  -ivh *.rpm
+
 
 ## Installing build tools and required packages by avogadro2 and the others
 RUN yum --nogpgcheck -y install rpm-build \
@@ -78,7 +79,7 @@ RUN yum -y install /root/rpmbuild/RPMS/x86_64/avogadro2-1.93*.rpm
 
 ## Making Plugin
 ADD avogadro2-plugin/ /tmp/avogadro2-plugin
-RUN rpm -ivh /tmp/avogadro2-plugin/*.rpm
+RUN rpm -ivh /tmp/avogadro2-plugin/*.rpm && cp -v /tmp/avogadro2-plugin/*.spec /root/rpmbuild/SPECS
 RUN yum -y install python36-numpy
 RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/avogadro2-nanocar.spec
 RUN yum -y install /root/rpmbuild/RPMS/x86_64/avogadro2-nanocar*.rpm
