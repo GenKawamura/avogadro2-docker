@@ -14,11 +14,9 @@ URL: https://github.com/kbsezginel/nanocar-avogadro/archive/master.zip
 Source0: nanocar-avogadro-master.zip
 %global commit 427abb2bca83d7ff160d2983dafe1754e79c32e4
 
-
+Requires:  python%{python3_pkgversion}
 BuildRequires:  python%{python3_pkgversion}-devel
 
-#Provides: %{name}-static = %{version}-%{release}
-#%{?python_provide:%python_provide python%{python3_pkgversion}-%{name}}
 
 %description
 Avogadro Nanocar Plugin. Build a nanocar molecule by picking molecular wheels and chassis in Avogadro2.
@@ -33,16 +31,23 @@ https://www.youtube.com/watch?v=bNmIEJaXltg
 
 
 %build
-echo "build"
+mkdir -vp %{buildroot}%{_datadir}/%{name}
 
 %install
-python3 install_plugin.py %{buildroot}%{python3_sitearch}/avogadro2/scripts
+python3 install_plugin.py %{buildroot}%{_datadir}/%{name}
+cp -v requirements.txt %{buildroot}%{_datadir}/%{name}
 
+%post
+export PIP_TARGET=%{_datadir}/%{name}
+pip3 install --upgrade -r %{_datadir}/%{name}/requirements.txt
 
+%preun
+export PIP_TARGET=%{_datadir}/%{name}
+pip3 uninstall -r %{_datadir}/%{name}/requirements.txt
 
 
 %files
-%{python3_sitearch}/avogadro2/scripts
+%{_datadir}/%{name}
 
 
 

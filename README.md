@@ -18,6 +18,7 @@
 ## Status
 
  * CentOS7 build is successful
- * Generating an RPM for Nanocar plugin
+ * Generating an RPM for Nanocar plugin --> A dependency issue of python3.6 packages
 
  * Fedore32 build is unsuccessful
+

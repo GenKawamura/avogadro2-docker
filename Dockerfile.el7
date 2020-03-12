@@ -47,7 +47,8 @@ lz4-devel \
 openssl-devel \
 sharutils \
 xz-devel \
-desktop-file-utils
+desktop-file-utils \
+git
 
 
 ## Installing all mesa related packages
@@ -57,7 +58,6 @@ RUN yum -y install mesa-*
 
 #RUN yum -y install mlocate && updatedb && locate avogadro2-libs.spec
 RUN ls /root/rpmbuild/SPECS
-ADD modified/*.spec /root/rpmbuild/SPECS/
 
 ## Bulding packages from source rpms
 RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/libarchive.spec
@@ -69,6 +69,10 @@ RUN yum -y install /root/rpmbuild/RPMS/x86_64/msgpack-*.rpm
 RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/mmtf-cpp.spec
 RUN yum -y install /root/rpmbuild/RPMS/x86_64/mmtf-cpp-devel-*.rpm
 
+
+## Building Avogadro2
+ADD modified/*.spec /root/rpmbuild/SPECS/
+
 RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/avogadro2-libs.spec
 RUN yum -y install /root/rpmbuild/RPMS/x86_64/avogadro2-libs-*.rpm
 
@@ -77,10 +81,10 @@ RUN yum -y install /root/rpmbuild/RPMS/x86_64/avogadro2-1.93*.rpm
 
 
 
-## Making Plugin
+## Making Avogadro2 Plugins
+#RUN yum -y install python36
 ADD avogadro2-plugin/ /tmp/avogadro2-plugin
 RUN rpm -ivh /tmp/avogadro2-plugin/*.rpm && cp -v /tmp/avogadro2-plugin/*.spec /root/rpmbuild/SPECS
-RUN yum -y install python36-numpy
 RUN rpmbuild --define 'debug_package %{nil}' --clean -ba /root/rpmbuild/SPECS/avogadro2-nanocar.spec
 RUN yum -y install /root/rpmbuild/RPMS/x86_64/avogadro2-nanocar*.rpm
 

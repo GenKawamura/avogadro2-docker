@@ -146,6 +146,16 @@ ln -sf %{python3_sitearch}/avogadro2/scripts %{buildroot}%{_libdir}/avogadro2/sc
 chrpath -d %{buildroot}%{_libdir}/lib*.so
 rm -rf %{buildroot}%{_datadir}/doc
 
+
+## Added for ccip
+#%if 0%{?el7}
+#export PIP_TARGET=%{buildroot}%{python3_sitearch}/avogadro2/scripts/formatScripts
+#test -e $PIP_TARGET || mkdir -pv $PIP_TARGET
+#pip3 install cclib
+#%endif
+
+
+
 %ldconfig_scriptlets
 
 %files
