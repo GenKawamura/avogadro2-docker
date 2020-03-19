@@ -31,11 +31,13 @@ https://www.youtube.com/watch?v=bNmIEJaXltg
 
 
 %build
-mkdir -vp %{buildroot}%{_datadir}/%{name}
 
 %install
-python3 install_plugin.py %{buildroot}%{_datadir}/%{name}
+mkdir -vp %{buildroot}%{_datadir}/%{name}
 cp -v requirements.txt %{buildroot}%{_datadir}/%{name}
+python3 install_plugin.py %{buildroot}%{_datadir}/%{name}
+
+
 
 %post
 export PIP_TARGET=%{_datadir}/%{name}
